@@ -1,48 +1,69 @@
-<?php
-// Lista de apps com seus respectivos links
-$apps = [
-    'default' => [
-        'android' => 'https://www.instagram.com/android/',
-        'ios' => 'https://www.instagram.com/apple/',
-    ],
-    'zeapp' => [
-        'android' => 'https://play.google.com/store/apps/details?id=com.exemplo.zeapp',
-        'ios' => 'https://apps.apple.com/app/id2222222222',
-    ],
-    'meucliente' => [
-        'android' => 'https://play.google.com/store/apps/details?id=com.exemplo.meucliente',
-        'ios' => 'https://apps.apple.com/app/id3333333333',
-    ]
-];
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estamos em Manutenção</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-// Captura a URL acessada, por exemplo: "/redirecionar/app1"
-$uri = trim($_SERVER['REQUEST_URI'], '/');
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #003b46; /* Azul petróleo */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+        }
 
-// Separa por barra e pega a última parte ("app1", "zeapp", etc)
-$partes = explode('/', $uri);
-$chave = $partes[count($partes) - 1];
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: white;
+            padding: 30px 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
 
-// Verifica se a chave existe na lista de apps
-if (!isset($apps[$chave])) {
-    // Se não existir, redireciona para uma página padrão (pode ser sua landing de download)
-    header("Location: https://oneer.com.br/baixar-app");
-    exit();
-}
+        h1 {
+            font-size: 24px;
+            color: #003b46;
+            margin-bottom: 15px;
+        }
 
-// Detecta o tipo de aparelho do usuário
-$userAgent = strtolower($_SERVER['HTTP_USER_AGENT']);
+        p {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 20px;
+        }
 
-if (strpos($userAgent, 'iphone') !== false || strpos($userAgent, 'ipad') !== false) {
-    // Se for iOS, redireciona pro link da App Store
-    header("Location: " . $apps[$chave]['ios']);
-    exit();
-} elseif (strpos($userAgent, 'android') !== false) {
-    // Se for Android, redireciona pro link da Play Store
-    header("Location: " . $apps[$chave]['android']);
-    exit();
-} else {
-    // Se não for possível detectar, manda para a página padrão
-    header("Location: https://oneer.com.br/baixar-app");
-    exit();
-}
-?>
+        .btn-whatsapp {
+            display: inline-block;
+            background-color: #25d366;
+            color: white;
+            padding: 12px 24px;
+            font-size: 16px;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-whatsapp:hover {
+            background-color: #1ebe57;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Estamos em Manutenção</h1>
+        <p>Voltamos em breve! Se precisar de algo, fale conosco pelo WhatsApp.</p>
+        <a class="btn-whatsapp" href="https://wa.me/5585985432243" target="_blank">Fale Conosco</a>
+    </div>
+</body>
+</html>
