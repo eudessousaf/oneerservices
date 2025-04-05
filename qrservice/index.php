@@ -1,69 +1,28 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estamos em Manutenção</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+<?php
+// Importa a lista de apps de outro arquivo
+$apps = include 'apps.php';
 
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #003b46; /* Azul petróleo */
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            padding: 20px;
-        }
+// Captura a URL acessada
+$uri = trim($_SERVER['REQUEST_URI'], '/');
+$partes = explode('/', $uri);
+$chave = $partes[count($partes) - 1];
 
-        .container {
-            max-width: 500px;
-            width: 100%;
-            background: white;
-            padding: 30px 20px;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-        }
+// Verifica se a chave existe na lista de apps
+if (!isset($apps[$chave])) {
+    header("Location: https://oneer.com.br/baixar-app");
+    exit();
+}
 
-        h1 {
-            font-size: 24px;
-            color: #003b46;
-            margin-bottom: 15px;
-        }
+// Detecta o tipo de aparelho do usuário
+$userAgent = strtolower($_SERVER['HTTP_USER_AGENT']);
 
-        p {
-            font-size: 16px;
-            color: #555;
-            margin-bottom: 20px;
-        }
-
-        .btn-whatsapp {
-            display: inline-block;
-            background-color: #25d366;
-            color: white;
-            padding: 12px 24px;
-            font-size: 16px;
-            text-decoration: none;
-            border-radius: 6px;
-            transition: background-color 0.3s ease;
-        }
-
-        .btn-whatsapp:hover {
-            background-color: #1ebe57;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Estamos em Manutenção</h1>
-        <p>Voltamos em breve! Se precisar de algo, fale conosco pelo WhatsApp.</p>
-        <a class="btn-whatsapp" href="https://wa.me/5585985432243" target="_blank">Fale Conosco</a>
-    </div>
-</body>
-</html>
+if (strpos($userAgent, 'iphone') !== false || strpos($userAgent, 'ipad') !== false) {
+    header("Location: " . $apps[$chave]['ios']);
+    exit();
+} elseif (strpos($userAgent, 'android') !== false) {
+    header("Location: " . $apps[$chave]['android']);
+    exit();
+} else {
+    header("Location: https://oneer.com.br/baixar-app");
+    exit();
+}
